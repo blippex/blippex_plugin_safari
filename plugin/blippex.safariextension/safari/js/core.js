@@ -26,7 +26,7 @@ blippex.define('blippex.core', {
 	addListeners: function() {
 		safari.application.addEventListener("message", function(messageEvent){
 			switch (messageEvent.message.action){
-				case "pageLoaded":
+				case 'pageLoaded':
 					if (!(safari.application.privateBrowsing || {'enabled': false}).enabled){
 							blippex.core.onLoad({
 								'tab':	messageEvent.target
@@ -34,53 +34,41 @@ blippex.define('blippex.core', {
 					}
 					break;
 				case 'onUnload':
-					blippex.core.onUnload({
-						'tab':	messageEvent.target
-					})
+					blippex.browser.debug.log('got document unload');
+					//blippex.core.onUnload({
+					//	'tab':	messageEvent.target
+					//})
 				}
 			}
 		);
 		
-		//safari.application.addEventListener("close", function(e){
-		//	blippex.core._tabHandlerEvent(e);
-		//}, true);
-		//safari.application.addEventListener("beforeNavigate", function(e){
-		//	blippex.core._tabHandlerEvent(e);
-		//}, true);
-		
-//    chrome.tabs.onRemoved.addListener(function(tabId){
-//			blippex.libs.timespent.upload({
-//				'tabId':	tabId
-//			});
-//			blippex.core.tabs[tabId] = blippex.config.status.uploaded;
-//    });
+		safari.application.addEventListener("close", function(e){
+			blippex.core._tabHandlerEvent(e);
+		}, true);
+		safari.application.addEventListener("beforeNavigate", function(e){
+			blippex.core._tabHandlerEvent(e);
+		}, true);
 	},
 	
 	_tabHandlerEvent: function(e){
 		if (e.target){
-			blippex.browser.debug.log('onClose/beforeNavigate event fired, detecting tab ID....');
 			var tabId = blippex.core.getTabId(e.target);
-			if (tabId){
-				blippex.browser.debug.log('unloading tab with id: ' + tabId);
-				if (blippex.core.tabs[tabId] && archify.core.TABS[tabId].header && archify.core._TAB_IDS[tabId]){
-					window.setTimeout(function(){
-						archify.core._sendTime({
-							'tabId': tabId,
-							'tab':	 e.target
-						});
-						archify.api.time.remove({'tabId': tabId});
-						delete archify.core._TAB_IDS[tabId];
-					}, 3000) //delayed sending since tab ID is unique per session and there should be possible close of the browser, thus data will be not sent correctly
-				}
+			if (tabId && blippex.core.tabs[tabId]){
+				window.setTimeout(function(){
+					blippex.libs.timespent.upload({
+						'tabId':	tabId
+					});
+				}, 2000)
 			}
 		}
 	},
 	
 	onLoad: function(oArgs){
+		var tabId = blippex.core.getTabId(oArgs.tab)
 		blippex.libs.timespent.upload({
-			'tabId':	blippex.core.getTabId(oArgs.tab)
+			'tabId':	tabId
 		});
-		blippex.core.tabs[blippex.core.getTabId(oArgs.tab)] = {
+		blippex.core.tabs[tabId] = {
 			'status':			blippex.browser.tabs.check({'url':	oArgs.tab.url}),
 			'timespent':	0,
 			'timestamp':	blippex.libs.misc.formatDate(),
