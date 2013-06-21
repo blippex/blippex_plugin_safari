@@ -22,7 +22,7 @@ blippex.define('blippex.libs.timespent', {
 	
 	capture: function(){
 		var tabId = blippex.core.getTabId(safari.application.activeBrowserWindow.activeTab);
-		if (tabId && blippex.core.tabs[tabId] && blippex.libs.timespent.isActive){
+		if (tabId && blippex.core.tabs[tabId] && blippex.libs.timespent.isActive && blippex.libs.disabled.isEnabled()){
 			blippex.core.tabs[tabId].timespent++;
 			var value = '%s|%s|%s'.replace('%s', blippex.core.tabs[tabId].timestamp)
 														.replace('%s', blippex.core.tabs[tabId].url)
@@ -35,7 +35,8 @@ blippex.define('blippex.libs.timespent', {
 		var tabId = oArgs.tabId;
 		if (blippex.core.tabs[tabId]
 				&& blippex.core.tabs[tabId].status == blippex.config.status.ok
-				&& blippex.core.tabs[tabId].timespent > blippex.config.values.timeout){
+				&& blippex.core.tabs[tabId].timespent > blippex.config.values.timeout
+				&& blippex.libs.disabled.isEnabled()){
 					blippex.browser.debug.log('sending time %s sec. for %s'.replace('%s',blippex.core.tabs[tabId].timespent).replace('%s',blippex.core.tabs[tabId].url))
 					blippex.api.upload.sendTime({
 						'timestamp':	blippex.core.tabs[tabId].timestamp,
@@ -59,15 +60,17 @@ blippex.define('blippex.libs.timespent', {
 	restoreSession: function(){
 		var localCache = blippex.browser.settings.get('timespentvalues');
 		blippex.browser.settings.set('timespentvalues', '');
-		for (var key in localCache){
-			if (/_ts$/i.test(key)){
-				var aItem = (localCache[key]+'').split('|');
-				if (aItem.length > 1 && aItem[2] > blippex.config.values.timeout){
-					blippex.api.upload.sendTime({
-						'timestamp':	aItem[0],
-						'url':				aItem[1],
-						'timespent':	aItem[2]
-					});
+		if (blippex.libs.disabled.isEnabled()) {
+			for (var key in localCache){
+				if (/_ts$/i.test(key)){
+					var aItem = (localCache[key]+'').split('|');
+					if (aItem.length > 1 && aItem[2] > blippex.config.values.timeout){
+						blippex.api.upload.sendTime({
+							'timestamp':	aItem[0],
+							'url':				aItem[1],
+							'timespent':	aItem[2]
+						});
+					}
 				}
 			}
 		}

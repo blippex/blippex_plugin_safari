@@ -1,9 +1,27 @@
 blippex.define('blippex.core', {
 	tabs: {},
 	_tabs: {}, /* just to get tab id for safari */
+	icons: {
+		'active': {
+			'icon':  'safari/images/toolbar.png'
+		},
+		'inactive': {
+			'icon':  'safari/images/toolbar_disabled.png'
+		}
+	},
+
 	init: function() {
 		blippex.core.addListeners();
 		blippex.libs.timespent.init();
+		blippex.libs.disabled.init();
+		blippex.core.changeIcon();
+	},
+	
+	changeIcon: function(){
+		var toolbarIcon = safari.extension.toolbarItems[0];
+		if (toolbarIcon){
+			toolbarIcon.image = safari.extension.baseURI + (blippex.core.icons[blippex.libs.disabled.isEnabled() ? 'active' : 'inactive'].icon);
+		}
 	},
 	
 	getTabId: function(tab){

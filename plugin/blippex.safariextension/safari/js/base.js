@@ -5,7 +5,7 @@
  */
 blippex.define('blippex.base', {
   'browser':  {
-    'name': 'chrome',
+    'name': 'safari',
     'online': function(){
       return navigator.onLine
     }
@@ -41,6 +41,11 @@ blippex.define('blippex.base', {
     },
     'set': function(key, value){
       localStorage[key] = ['string', 'number'].indexOf((typeof value).toLowerCase()) > -1 ? value : JSON.stringify(value);
+    }
+  },
+  'tabs': {
+    'add': function(oArgs){
+      safari.application.activeBrowserWindow.openTab().url = oArgs.url || '';
     }
   }
 });
