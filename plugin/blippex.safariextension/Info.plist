@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>Author</key>
+	<string>blippex</string>
 	<key>Builder Version</key>
 	<string>8536.29.13</string>
 	<key>CFBundleDisplayName</key>
@@ -20,6 +22,19 @@
 		<real>104857600</real>
 		<key>Global Page</key>
 		<string>safari/html/background.html</string>
+		<key>Popovers</key>
+		<array>
+			<dict>
+				<key>Filename</key>
+				<string>common/html/popup.html</string>
+				<key>Height</key>
+				<real>300</real>
+				<key>Identifier</key>
+				<string>blippexPopup</string>
+				<key>Width</key>
+				<real>450</real>
+			</dict>
+		</array>
 		<key>Toolbar Items</key>
 		<array>
 			<dict>
@@ -29,6 +44,8 @@
 				<string>safari/images/toolbar.png</string>
 				<key>Label</key>
 				<string>blippex</string>
+				<key>Popover</key>
+				<string>blippexPopup</string>
 				<key>Tool Tip</key>
 				<string>blippex</string>
 			</dict>
@@ -44,6 +61,8 @@
 			</array>
 		</dict>
 	</dict>
+	<key>Description</key>
+	<string>A secure and anonymous search engine made by the people, for the people.</string>
 	<key>ExtensionInfoDictionaryVersion</key>
 	<string>1.0</string>
 	<key>Permissions</key>
@@ -56,5 +75,7 @@
 			<string>All</string>
 		</dict>
 	</dict>
+	<key>Website</key>
+	<string>https://www.blippex.org</string>
 </dict>
 </plist>

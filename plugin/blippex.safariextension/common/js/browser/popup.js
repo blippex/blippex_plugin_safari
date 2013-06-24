@@ -11,19 +11,20 @@ blippex.define('blippex.popup', {
 		blippex.popup.popupRenderer();
 	},
 	initHandlers: function(){
-		blippex.popup.addEventListener('blippex-input-value', function(event){if (event.keyCode == 13) {blippex.popup.onSearch();}}, 'keydown');
-		blippex.popup.addEventListener('blippex-input-enable', function(){blippex.popup.onEnable()});
-		blippex.popup.addEventListener('blippex-input-submit', function(){blippex.popup.onSearch()});
+		blippex.popup.addEventListener('blippex-input-value', function(event){if (event.keyCode == 13) {blippex.popup.onSearch();}return false;}, 'keydown');
+		blippex.popup.addEventListener('blippex-input-enable', function(){blippex.popup.onEnable();return false;});
+		blippex.popup.addEventListener('blippex-input-submit', function(){blippex.popup.onSearch();return false;});
 		blippex.popup.addEventListener('blippex-checkbox-nohttps', function(){blippex.popup.onHttps(this.checked)});
 	},
 	addEventListener: function(id, handler, event){
     event = event || 'click';
 		document.getElementById(id).parentNode.replaceChild(document.getElementById(id).cloneNode(true), document.getElementById(id));
-		document.getElementById(id).addEventListener(event, handler);
+		document.getElementById(id).addEventListener(event, handler, false);
 	},
 	popupRenderer: function(){
 		document.getElementById('blippex-checkbox-nohttps').checked = _blippex.browser.settings.get('nohttps', true);
 		document.getElementById('blippex-input-enable').innerText = _blippex.libs.disabled.isEnabled() ? "Deactivate for 30min" : "Reactivate"
+		blippex.popup.onFit();
 	},
 	onEnable: function(){
 		_blippex.libs.disabled.toggle();
@@ -35,14 +36,19 @@ blippex.define('blippex.popup', {
 	onSearch: function(){
 		var _query = document.getElementById('blippex-input-value');
 		if (_query && _query.value.length){
-			_query.value = "";
 			_blippex.browser.tabs.add('https://www.blippex.org/#?q='+encodeURIComponent(_query.value));
+			_query.value = "";
 			blippex.popup.onHide();
 		}
 	},
 	onHide: function(id){
-		window.close();
-	}
+		safari.extension.popovers[0].hide();
+	},
+	onFit: function(){
+    var pPopover = safari.extension.popovers[0];
+    pPopover.height = pPopover.contentWindow.document.getElementById('popup').scrollHeight;
+		pPopover.width = 450;		
+  },
 });
 
 
@@ -50,5 +56,4 @@ blippex.define('blippex.popup', {
 safari.application.addEventListener("popover", function(){
 	try{Typekit.load();}catch(e){}
 	blippex.popup._init();
-	
 }, true);
