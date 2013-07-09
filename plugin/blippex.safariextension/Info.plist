@@ -3,11 +3,11 @@
 <plist version="1.0">
 <dict>
 	<key>Author</key>
-	<string>blippex</string>
+	<string>Blippex</string>
 	<key>Builder Version</key>
 	<string>534.57.2</string>
 	<key>CFBundleDisplayName</key>
-	<string>blippex</string>
+	<string>Blippex</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.blippex.extension</string>
 	<key>CFBundleInfoDictionaryVersion</key>
