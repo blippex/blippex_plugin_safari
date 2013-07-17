@@ -1,6 +1,7 @@
 blippex.define('blippex.config', {
   'api': {
-    'upload': 'https://api.blippex.org/add/'
+    'upload': 'https://api.blippex.org/add/',
+    'search': 'https://api.blippex.org/search?limit=3&q='
   },
   'status': {
     'na':               0x00,
@@ -18,7 +19,8 @@ blippex.define('blippex.config', {
   },
   'settings': {
     'timespentvalues':  '',
-    'https':            true
+    'https':            true,
+    'google':            true
   },
   'plugin': {
     'debugmode':  true
