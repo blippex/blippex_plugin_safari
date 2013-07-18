@@ -59,12 +59,24 @@ if (window.top === window && /google/i.test(window.location.host)) {
             } else {
               document.getElementById(messageEvent.message.where.id).insertBefore(newDiv, document.getElementById(messageEvent.message.where.id).firstChild);
             }
+            google.addEventListener('blippex-button-close', function(){
+              newDiv.style.display = 'none';
+              safari.self.tab.dispatchMessage('message', {
+                'action':   'disable_overlay',
+                'engine':   google.engine
+              });
+            });
           }
           break;
         default:
         }
       });
     },
+	addEventListener: function(id, handler, event){
+    event = event || 'click';
+		document.getElementById(id).parentNode.replaceChild(document.getElementById(id).cloneNode(true), document.getElementById(id));
+		document.getElementById(id).addEventListener(event, handler);
+	},
     getQueryFromURL: function() {
       var regex = new RegExp('[\?\&]q=([^\&#]+)');
       if (regex.test(window.location.href)) {
