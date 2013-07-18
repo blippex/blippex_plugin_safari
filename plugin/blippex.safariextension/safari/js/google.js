@@ -60,11 +60,19 @@ if (window.top === window && /google/i.test(window.location.host)) {
               document.getElementById(messageEvent.message.where.id).insertBefore(newDiv, document.getElementById(messageEvent.message.where.id).firstChild);
             }
             google.addEventListener('blippex-button-close', function(){
+              document.getElementById('blippex-layout-confirmation').style.display = '';
+              document.getElementById('blippex-layout-results').style.display = 'none';
+            });
+            google.addEventListener('blippex-button-confrim-yes', function(){
               newDiv.style.display = 'none';
               safari.self.tab.dispatchMessage('message', {
                 'action':   'disable_overlay',
                 'engine':   google.engine
               });
+            });
+            google.addEventListener('blippex-button-confrim-no', function(){
+              document.getElementById('blippex-layout-confirmation').style.display = 'none';
+              document.getElementById('blippex-layout-results').style.display = '';
             });
           }
           break;
