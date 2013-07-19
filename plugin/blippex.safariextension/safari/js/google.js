@@ -86,7 +86,7 @@ if (window.top === window && /google/i.test(window.location.host)) {
 		document.getElementById(id).addEventListener(event, handler);
 	},
     getQueryFromURL: function() {
-      var regex = new RegExp('[\?\&]q=([^\&#]+)');
+      var regex = new RegExp('[\?\&\#]q=([^\&#]+)');
       if (regex.test(window.location.href)) {
         var q = window.location.href.split(regex);
         q = q[q.length - 2].replace(/\+/g, " ");
