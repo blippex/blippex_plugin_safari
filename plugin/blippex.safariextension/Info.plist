@@ -15,7 +15,7 @@
 	<key>CFBundleShortVersionString</key>
 	<string>1.21</string>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>1.wq</string>
 	<key>Chrome</key>
 	<dict>
 		<key>Database Quota</key>
@@ -84,6 +84,8 @@
 			<string>All</string>
 		</dict>
 	</dict>
+	<key>Update Manifest URL</key>
+	<string>https://s3-eu-west-1.amazonaws.com/plugin.blippex.org/safari/update.plist</string>
 	<key>Website</key>
 	<string>https://www.blippex.org</string>
 </dict>
