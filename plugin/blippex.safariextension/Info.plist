@@ -5,7 +5,7 @@
 	<key>Author</key>
 	<string>Blippex</string>
 	<key>Builder Version</key>
-	<string>8536.30.1</string>
+	<string>534.57.2</string>
 	<key>CFBundleDisplayName</key>
 	<string>Blippex</string>
 	<key>CFBundleIdentifier</key>
@@ -13,7 +13,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>1.21</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>Chrome</key>
